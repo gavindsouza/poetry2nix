@@ -384,7 +384,7 @@ lib.composeManyExtensions [
                   inherit (old) src;
                   sourceRoot = "${old.pname}-${old.version}/src/_bcrypt";
                   name = "${old.pname}-${old.version}";
-                  sha256 = getCargoHash old.version;
+                  hash = getCargoHash old.version;
                 };
             cargoRoot = "src/_bcrypt";
           }
@@ -656,6 +656,7 @@ lib.composeManyExtensions [
                   sourceRoot = "${old.pname}-${old.version}/${cargoRoot}";
                   name = "${old.pname}-${old.version}";
                   inherit sha256;
+                  hash = sha256;
                 };
               cargoRoot = if lib.versionAtLeast old.version "44" then "." else "src/rust";
             }
@@ -2103,7 +2104,7 @@ lib.composeManyExtensions [
             cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
               inherit src;
               name = "${old.pname}-${old.version}";
-              sha256 = cargoHash;
+              hash = cargoHash;
             };
             nativeBuildInputs = old.nativeBuildInputs or [ ] ++ [
               pkgs.rustPlatform.cargoSetupHook # handles `importCargoLock`
@@ -2375,7 +2376,7 @@ lib.composeManyExtensions [
           cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
             inherit (old) src;
             name = "${old.pname}-${old.version}";
-            sha256 = hashes.${old.version};
+            hash = hashes.${old.version};
           };
 
           buildInputs = old.buildInputs or [ ] ++ lib.optionals stdenv.isDarwin [
